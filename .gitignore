@@ -13,7 +13,6 @@ node_modules/
 dist/
 data/
 .databricks/
-docs/
 src/app/static/
 src/bootstrap/genie_guidance_docs/
 output/

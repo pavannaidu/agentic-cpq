@@ -28,10 +28,16 @@ Unity Catalog holds the source data: products, pricebook, supplier segment prici
 
 The agent loop runs inside the app with `openai-agents` and `AsyncDatabricksOpenAI`. The managed Genie Agent supplies SQL evidence and cited guidance; there is no separate agent app or document agent. The backend reconciles proposed quote changes against governed data and surfaces agent failures instead of fabricating content. Without a Lakebase connection, local development uses an in-memory `DraftOrderStore`.
 
+## Documentation
+
+- [Application overview (PDF)](docs/agentic-cpq-app-overview.pdf)
+- [CPQ admin benchmark](docs/cpq-admin-benchmark.md)
+
 ## Repo layout
 
 ```
 databricks.yml              # DAB entrypoint — dev/prod targets and variable definitions
+docs/                       # Application overview PDF and CPQ admin benchmark
 resources/
   app.yml                   # Databricks App resource
   jobs.yml                  # Bootstrap workflow jobs
