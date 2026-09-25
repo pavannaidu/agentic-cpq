@@ -1,0 +1,9 @@
+resources:
+  schemas:
+    cpq_demo_schema:
+      catalog_name: ${var.catalog}
+      name: ${var.schema}
+    # Home for the UC->Lakebase synced reference tables (mirrors into Postgres schema cpq_ref).
+    cpq_ref_schema:
+      catalog_name: ${var.catalog}
+      name: cpq_ref

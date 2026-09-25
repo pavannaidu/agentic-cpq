@@ -1,0 +1,106 @@
+resources:
+  jobs:
+    seed_demo_data:
+      name: "[${bundle.target}] Agentic CPQ Seed Demo Data"
+      tasks:
+        - task_key: seed_demo_tables
+          new_cluster:
+            spark_version: ${var.jobs_spark_version}
+            node_type_id: ${var.jobs_cluster_node_type}
+            num_workers: 1
+            data_security_mode: USER_ISOLATION
+          spark_python_task:
+            python_file: ../src/bootstrap/seed_demo_data.py
+            parameters:
+              - --catalog
+              - ${var.catalog}
+              - --schema
+              - ${var.schema}
+              - --guidance-volume
+              - ${var.genie_guidance_volume}
+      permissions:
+        - level: CAN_MANAGE
+          group_name: ${var.demo_owner_group}
+
+    bootstrap_agent_bricks:
+      name: "[${bundle.target}] Agentic CPQ Bootstrap Genie Agent"
+      tasks:
+        - task_key: create_or_update_genie_agent
+          new_cluster:
+            spark_version: ${var.jobs_spark_version}
+            node_type_id: ${var.jobs_cluster_node_type}
+            num_workers: 1
+            data_security_mode: USER_ISOLATION
+          spark_python_task:
+            python_file: ../src/bootstrap/bootstrap_agent_bricks.py
+            parameters:
+              - --catalog
+              - ${var.catalog}
+              - --schema
+              - ${var.schema}
+              - --guidance-volume
+              - ${var.genie_guidance_volume}
+              - --warehouse-id
+              - ${var.warehouse_id}
+              - --environment
+              - ${bundle.target}
+              - --agent-prefix
+              - ${var.agent_prefix}
+      permissions:
+        - level: CAN_MANAGE
+          group_name: ${var.demo_owner_group}
+
+    grant_app_access:
+      name: "[${bundle.target}] Agentic CPQ Grant App Access"
+      tasks:
+        - task_key: grant_permissions
+          new_cluster:
+            spark_version: ${var.jobs_spark_version}
+            node_type_id: ${var.jobs_cluster_node_type}
+            num_workers: 1
+            data_security_mode: USER_ISOLATION
+          spark_python_task:
+            python_file: ../src/bootstrap/grant_app_access.py
+            parameters:
+              - --catalog
+              - ${var.catalog}
+              - --schema
+              - ${var.schema}
+              - --guidance-volume
+              - ${var.genie_guidance_volume}
+              - --genie-space-id
+              - ${var.genie_space_id}
+              - --app-client-id
+              - ${resources.apps.seller_demo_app.service_principal_client_id}
+      permissions:
+        - level: CAN_MANAGE
+          group_name: ${var.demo_owner_group}
+
+    smoke_test_stack:
+      name: "[${bundle.target}] Agentic CPQ Smoke Test Stack"
+      tasks:
+        - task_key: smoke_test
+          new_cluster:
+            spark_version: ${var.jobs_spark_version}
+            node_type_id: ${var.jobs_cluster_node_type}
+            num_workers: 1
+            data_security_mode: USER_ISOLATION
+          spark_python_task:
+            python_file: ../src/bootstrap/smoke_test_stack.py
+            parameters:
+              - --catalog
+              - ${var.catalog}
+              - --schema
+              - ${var.schema}
+              - --guidance-volume
+              - ${var.genie_guidance_volume}
+              - --genie-space-id
+              - ${var.genie_space_id}
+              - --app-client-id
+              - ${resources.apps.seller_demo_app.service_principal_client_id}
+          libraries:
+            - pypi:
+                package: databricks-openai==0.17.0
+      permissions:
+        - level: CAN_MANAGE
+          group_name: ${var.demo_owner_group}

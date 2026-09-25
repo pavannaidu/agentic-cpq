@@ -1,0 +1,47 @@
+resources:
+  apps:
+    seller_demo_app:
+      name: ${var.app_name_prefix}-${bundle.target}
+      description: Agentic CPQ with an in-process OpenAI Agents SDK assistant.
+      source_code_path: ../src/app
+      resources:
+        - name: lakebase
+          database:
+            instance_name: ${var.lakebase_instance}
+            database_name: ${var.lakebase_database}
+            permission: CAN_CONNECT_AND_CREATE
+        - name: agent-warehouse
+          description: SQL warehouse used by the in-process agent's Genie tool.
+          sql_warehouse:
+            id: ${var.warehouse_id}
+            permission: CAN_USE
+        - name: seller-genie-agent
+          description: Curated Genie Agent for structured CPQ data and cited seller guidance.
+          genie_space:
+            name: ${var.agent_prefix}-genie-${bundle.target}
+            space_id: ${var.genie_space_id}
+            permission: CAN_RUN
+        - name: genie-guidance-volume
+          description: Indexed seller-guidance documents attached to the Genie Agent.
+          uc_securable:
+            securable_type: VOLUME
+            securable_full_name: ${var.catalog}.${var.schema}.${var.genie_guidance_volume}
+            permission: READ_VOLUME
+        - name: quote-agent-model
+          serving_endpoint:
+            name: ${var.quote_model_endpoint}
+            permission: CAN_QUERY
+        - name: followup-model
+          serving_endpoint:
+            name: ${var.followup_model_endpoint}
+            permission: CAN_QUERY
+        - name: plan-confirmation-secret
+          secret:
+            scope: ${var.plan_confirmation_secret_scope}
+            key: ${var.plan_confirmation_secret_key}
+            permission: READ
+        - name: lakebase-instance-name
+          secret:
+            scope: ${var.plan_confirmation_secret_scope}
+            key: ${var.lakebase_instance_secret_key}
+            permission: READ

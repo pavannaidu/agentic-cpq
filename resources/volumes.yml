@@ -1,0 +1,9 @@
+resources:
+  volumes:
+    # Retain the previously bundle-managed volume so deploy cannot orphan-delete
+    # it. The unified runtime and bootstrap jobs use genie_guidance_volume only.
+    cpq_demo_docs:
+      catalog_name: ${var.catalog}
+      schema_name: ${var.schema}
+      name: ${var.docs_volume}
+      volume_type: MANAGED

@@ -1,0 +1,11 @@
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+databricks-sdk>=0.53.0
+databricks-openai==0.17.0
+databricks-mcp==0.9.2
+openai-agents==0.19.1
+pydantic>=2.8.0
+python-multipart>=0.0.9
+requests>=2.32.0
+psycopg[binary]>=3.2
+reportlab>=4.2.0

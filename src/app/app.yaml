@@ -1,0 +1,31 @@
+command:
+  - "python"
+  - "app.py"
+
+env:
+  - name: AGENTIC_CPQ_AGENT_PREFIX
+    value: "agentic-cpq"
+  - name: AGENTIC_CPQ_AGENT_MODEL
+    valueFrom: quote-agent-model
+  - name: AGENTIC_CPQ_USE_MOCK_FALLBACK
+    value: "false"
+  - name: AGENTIC_CPQ_AGENT_TIMEOUT_SECONDS
+    value: "110"
+  - name: AGENTIC_CPQ_DEFAULT_ACCOUNT_ID
+    value: "acct-riverfront"
+  - name: AGENTIC_CPQ_MANAGER_EMAILS
+    value: ""
+  - name: AGENTIC_CPQ_FOLLOWUP_ENDPOINT
+    valueFrom: followup-model
+  - name: AGENTIC_CPQ_FOLLOWUPS_ENABLED
+    value: "true"
+  - name: AGENTIC_CPQ_PLANS_ENABLED
+    value: "true"
+  - name: AGENTIC_CPQ_PLAN_CONFIRMATION_SECRET
+    valueFrom: plan-confirmation-secret
+  - name: AGENTIC_CPQ_GENIE_ENABLED
+    value: "true"
+  - name: AGENTIC_CPQ_GENIE_SPACE_ID
+    valueFrom: seller-genie-agent
+  - name: AGENTIC_CPQ_LAKEBASE_INSTANCE
+    valueFrom: lakebase-instance-name

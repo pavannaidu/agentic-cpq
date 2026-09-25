@@ -1,0 +1,135 @@
+# Managed UC -> Lakebase (Postgres) synced tables. The app reads these from the
+# Postgres `cpq_ref` schema over its existing psycopg connection; Genie keeps
+# reading the UC source tables. Snapshot scheduling refreshes on deploy/run.
+# Each source table was made sync-ready by seed_demo_data.py (PRIMARY KEY (id) + CDF).
+resources:
+  synced_database_tables:
+    ref_accounts:
+      name: ${resources.schemas.cpq_ref_schema.id}.accounts
+      database_instance_name: ${var.lakebase_instance}
+      logical_database_name: ${var.lakebase_database}
+      spec:
+        source_table_full_name: ${var.catalog}.${var.schema}.accounts
+        primary_key_columns: [id]
+        scheduling_policy: SNAPSHOT
+        create_database_objects_if_missing: true
+        new_pipeline_spec:
+          storage_catalog: ${var.catalog}
+          storage_schema: ${var.schema}
+
+    ref_products:
+      name: ${resources.schemas.cpq_ref_schema.id}.products
+      database_instance_name: ${var.lakebase_instance}
+      logical_database_name: ${var.lakebase_database}
+      spec:
+        source_table_full_name: ${var.catalog}.${var.schema}.products
+        primary_key_columns: [id]
+        scheduling_policy: SNAPSHOT
+        create_database_objects_if_missing: true
+        new_pipeline_spec:
+          storage_catalog: ${var.catalog}
+          storage_schema: ${var.schema}
+
+    ref_pricebook:
+      name: ${resources.schemas.cpq_ref_schema.id}.pricebook
+      database_instance_name: ${var.lakebase_instance}
+      logical_database_name: ${var.lakebase_database}
+      spec:
+        source_table_full_name: ${var.catalog}.${var.schema}.pricebook
+        primary_key_columns: [id]
+        scheduling_policy: SNAPSHOT
+        create_database_objects_if_missing: true
+        new_pipeline_spec:
+          storage_catalog: ${var.catalog}
+          storage_schema: ${var.schema}
+
+    ref_supplier_segment_pricing:
+      name: ${resources.schemas.cpq_ref_schema.id}.supplier_segment_pricing
+      database_instance_name: ${var.lakebase_instance}
+      logical_database_name: ${var.lakebase_database}
+      spec:
+        source_table_full_name: ${var.catalog}.${var.schema}.supplier_segment_pricing
+        primary_key_columns: [id]
+        scheduling_policy: SNAPSHOT
+        create_database_objects_if_missing: true
+        new_pipeline_spec:
+          storage_catalog: ${var.catalog}
+          storage_schema: ${var.schema}
+
+    ref_supplier_price_book:
+      name: ${resources.schemas.cpq_ref_schema.id}.supplier_price_book
+      database_instance_name: ${var.lakebase_instance}
+      logical_database_name: ${var.lakebase_database}
+      spec:
+        source_table_full_name: ${var.catalog}.${var.schema}.supplier_price_book
+        primary_key_columns: [id]
+        scheduling_policy: SNAPSHOT
+        create_database_objects_if_missing: true
+        new_pipeline_spec:
+          storage_catalog: ${var.catalog}
+          storage_schema: ${var.schema}
+
+    ref_promotions:
+      name: ${resources.schemas.cpq_ref_schema.id}.promotions
+      database_instance_name: ${var.lakebase_instance}
+      logical_database_name: ${var.lakebase_database}
+      spec:
+        source_table_full_name: ${var.catalog}.${var.schema}.promotions
+        primary_key_columns: [id]
+        scheduling_policy: SNAPSHOT
+        create_database_objects_if_missing: true
+        new_pipeline_spec:
+          storage_catalog: ${var.catalog}
+          storage_schema: ${var.schema}
+
+    ref_warranty_eligibility:
+      name: ${resources.schemas.cpq_ref_schema.id}.warranty_eligibility
+      database_instance_name: ${var.lakebase_instance}
+      logical_database_name: ${var.lakebase_database}
+      spec:
+        source_table_full_name: ${var.catalog}.${var.schema}.warranty_eligibility
+        primary_key_columns: [id]
+        scheduling_policy: SNAPSHOT
+        create_database_objects_if_missing: true
+        new_pipeline_spec:
+          storage_catalog: ${var.catalog}
+          storage_schema: ${var.schema}
+
+    ref_approval_rules:
+      name: ${resources.schemas.cpq_ref_schema.id}.approval_rules
+      database_instance_name: ${var.lakebase_instance}
+      logical_database_name: ${var.lakebase_database}
+      spec:
+        source_table_full_name: ${var.catalog}.${var.schema}.approval_rules
+        primary_key_columns: [id]
+        scheduling_policy: SNAPSHOT
+        create_database_objects_if_missing: true
+        new_pipeline_spec:
+          storage_catalog: ${var.catalog}
+          storage_schema: ${var.schema}
+
+    ref_sample_prompts:
+      name: ${resources.schemas.cpq_ref_schema.id}.sample_prompts
+      database_instance_name: ${var.lakebase_instance}
+      logical_database_name: ${var.lakebase_database}
+      spec:
+        source_table_full_name: ${var.catalog}.${var.schema}.sample_prompts
+        primary_key_columns: [id]
+        scheduling_policy: SNAPSHOT
+        create_database_objects_if_missing: true
+        new_pipeline_spec:
+          storage_catalog: ${var.catalog}
+          storage_schema: ${var.schema}
+
+    ref_source_freshness:
+      name: ${resources.schemas.cpq_ref_schema.id}.source_freshness
+      database_instance_name: ${var.lakebase_instance}
+      logical_database_name: ${var.lakebase_database}
+      spec:
+        source_table_full_name: ${var.catalog}.${var.schema}.source_freshness
+        primary_key_columns: [id]
+        scheduling_policy: SNAPSHOT
+        create_database_objects_if_missing: true
+        new_pipeline_spec:
+          storage_catalog: ${var.catalog}
+          storage_schema: ${var.schema}
