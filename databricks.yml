@@ -1,5 +1,5 @@
 bundle:
-  name: agentic-cpq-demo
+  name: hs-cpq-demo
 
 include:
   - resources/*.yml
@@ -17,26 +17,30 @@ workspace:
 
 variables:
   catalog:
-    description: Existing Unity Catalog catalog that stores demo tables and Genie guidance.
+    description: Unity Catalog catalog that stores demo tables and Genie guidance.
+    default: pavan_naidu_catalog
   schema:
     description: Schema for the Agentic CPQ demo objects.
-    default: agentic_cpq_demo
-  # Retained so deployments from the original bundle do not remove a managed volume.
+    default: hs_cpq_demo
+  # Retained only so bundle deployment does not delete the former document
+  # volume during the non-destructive migration. Runtime jobs do not use it.
   docs_volume:
-    description: Legacy managed document volume retained for migration safety; unused by the app.
+    description: Legacy managed document volume retained for migration safety; unused by the app and Genie Agent.
     default: cpq_docs
   genie_guidance_volume:
     description: Existing managed volume attached to the Genie Agent for seller guidance.
-    default: agentic_cpq_guidance
+    default: cpq_guidance
   genie_space_id:
     description: Existing Genie Agent used for structured CPQ data and cited seller guidance.
   warehouse_id:
     description: SQL warehouse used by the Genie space.
+    default: fb3b5c1dee0b9d55
   lakebase_instance:
-    description: Existing Lakebase Provisioned instance backing quotes and the synced catalog.
+    description: Lakebase (managed Postgres) database instance backing quotes + catalog.
+    default: dbdemosonlinestorepavannaidu
   lakebase_database:
     description: Postgres database created inside the Lakebase instance.
-    default: agentic_cpq
+    default: hs_cpq
   jobs_spark_version:
     description: Databricks Runtime used for bootstrap jobs.
     default: 15.4.x-scala2.12
@@ -45,22 +49,10 @@ variables:
     default: i3.xlarge
   agent_prefix:
     description: Prefix used for the Genie Agent title.
-    default: agentic-cpq
+    default: hs-cpq
   app_name_prefix:
     description: Prefix for the Databricks App resource.
-    default: agentic-cpq-demo
-  quote_model_endpoint:
-    description: Model Serving endpoint used by the quote agent.
-    default: databricks-gpt-5-6-terra
-  followup_model_endpoint:
-    description: Model Serving endpoint used for follow-up suggestions.
-    default: databricks-gpt-5-6-luna
-  plan_confirmation_secret_scope:
-    description: Existing Databricks secret scope containing both app runtime keys.
-  plan_confirmation_secret_key:
-    description: Key within that scope containing a stable random plan confirmation secret.
-  lakebase_instance_secret_key:
-    description: Key whose value equals lakebase_instance, used when the app mints a database credential.
+    default: hs-cpq-seller-demo
   demo_owner_group:
     description: Group that can manage bundle jobs.
     default: users
@@ -72,12 +64,17 @@ targets:
   dev:
     default: true
     mode: development
+    workspace:
+      profile: FEVM
     variables:
-      schema: agentic_cpq_demo_dev
+      schema: hs_cpq_demo_dev
+      genie_space_id: 01f163adaafc189e852effe4bdced3a8
 
   prod:
     mode: production
+    workspace:
+      profile: FEVM
     variables:
-      schema: agentic_cpq_demo_prod
+      schema: hs_cpq_demo_prod
     run_as:
       service_principal_name: ${var.run_as_service_principal}

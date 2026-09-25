@@ -29,19 +29,14 @@ resources:
             permission: READ_VOLUME
         - name: quote-agent-model
           serving_endpoint:
-            name: ${var.quote_model_endpoint}
+            name: databricks-gpt-5-6-terra
             permission: CAN_QUERY
         - name: followup-model
           serving_endpoint:
-            name: ${var.followup_model_endpoint}
+            name: databricks-gpt-5-6-luna
             permission: CAN_QUERY
         - name: plan-confirmation-secret
           secret:
-            scope: ${var.plan_confirmation_secret_scope}
-            key: ${var.plan_confirmation_secret_key}
-            permission: READ
-        - name: lakebase-instance-name
-          secret:
-            scope: ${var.plan_confirmation_secret_scope}
-            key: ${var.lakebase_instance_secret_key}
+            scope: pavan_naidu
+            key: hs-cpq-plan-confirmation-secret
             permission: READ

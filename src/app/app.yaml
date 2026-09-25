@@ -4,7 +4,7 @@ command:
 
 env:
   - name: AGENTIC_CPQ_AGENT_PREFIX
-    value: "agentic-cpq"
+    value: "hs-cpq"
   - name: AGENTIC_CPQ_AGENT_MODEL
     valueFrom: quote-agent-model
   - name: AGENTIC_CPQ_USE_MOCK_FALLBACK
@@ -14,7 +14,7 @@ env:
   - name: AGENTIC_CPQ_DEFAULT_ACCOUNT_ID
     value: "acct-riverfront"
   - name: AGENTIC_CPQ_MANAGER_EMAILS
-    value: ""
+    value: "pavan.naidu@databricks.com"
   - name: AGENTIC_CPQ_FOLLOWUP_ENDPOINT
     valueFrom: followup-model
   - name: AGENTIC_CPQ_FOLLOWUPS_ENABLED
@@ -28,4 +28,4 @@ env:
   - name: AGENTIC_CPQ_GENIE_SPACE_ID
     valueFrom: seller-genie-agent
   - name: AGENTIC_CPQ_LAKEBASE_INSTANCE
-    valueFrom: lakebase-instance-name
+    value: "dbdemosonlinestorepavannaidu"
